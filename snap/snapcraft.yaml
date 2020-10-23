@@ -17,8 +17,6 @@ apps:
       - opengl
       - audio-playback
       - joystick
-      - network
-      - network-bind
       - home
 
     environment:
@@ -32,7 +30,6 @@ parts:
     source-type: git
     configflags:
       - --prefix=/usr
-
     build-packages:
       - libexpat1-dev
       - libicu-dev
@@ -50,25 +47,40 @@ parts:
       snapcraftctl build
 
     build-packages:
+      - libfreetype6-dev
+      - libopusfile-dev
       - libpixman-1-dev
       - libpng-dev
       - libsdl2-dev
       - libsdl2-mixer-dev
       - libsdl2-ttf-dev
+      - libsndfile1-dev
+      - libspeex-dev
+      - libvorbis-dev
+      - libwildmidi-dev
+      - libxmp-dev
 
     stage-packages:
+      - libfreetype6
       - libstdc++6
       - libicu60
       - libgl1-mesa-dri
       - libgl1-mesa-glx
       - libglu1-mesa
+      - libopusfile0
       - libpixman-1-0
       - libpng16-16
-      - libwayland-egl1-mesa
       - libsdl2-2.0-0
       - libsdl2-mixer-2.0-0
       - libsdl2-ttf-2.0-0
+      - libsndfile1
+      - libspeex1
+      - libvorbis0a
+      - libwayland-egl1-mesa
+      - libwildmidi2
+      - libxmp4
       - locales-all
+      - mpg123
 
   fmtlib:
     plugin: cmake
