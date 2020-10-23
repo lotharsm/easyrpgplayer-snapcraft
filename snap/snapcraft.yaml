@@ -19,6 +19,7 @@ apps:
       - joystick
       - network
       - network-bind
+      - home
 
     environment:
       XDG_DATA_HOME: $SNAP_USER_COMMON/
