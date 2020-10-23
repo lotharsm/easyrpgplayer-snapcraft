@@ -1,0 +1,11 @@
+[Desktop Entry]
+Name=EasyRPG Player
+GenericName=EasyRPG Player
+Comment=EasyRPG Player is a program that allows to play games created with RPG Maker 2000 and 2003.
+Comment[de]=EasyRPG Player ist ein Programm, welches die Ausführung von Spielen erlaubt, die mit RPG Maker 2000 und 2003 erstellt wurden.
+Exec=easyrpg-player
+Terminal=false
+Type=Application
+X-DCOP-ServiceType=Multi
+X-KDE-StartupNotify=true
+Categories=Game;RolePlaying;
