@@ -44,6 +44,9 @@ parts:
     source-type: git
     configflags:
       - --prefix=/usr
+    override-build: |
+      snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
+      snapcraftctl build
 
     build-packages:
       - libpixman-1-dev
@@ -54,6 +57,7 @@ parts:
 
     stage-packages:
       - libstdc++6
+      - libicu60
       - libgl1-mesa-dri
       - libgl1-mesa-glx
       - libglu1-mesa
