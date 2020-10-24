@@ -1,5 +1,5 @@
 name: easyrpg-player
-base: core18
+base: core20
 adopt-info: easyrpg-player
 summary: easyrpg-player
 description: |
@@ -9,7 +9,7 @@ grade: stable
 
 apps:
   easyrpg-player:
-    command: desktop-launch $SNAP/usr/bin/easyrpg-player
+    command: bin/desktop-launch $SNAP/usr/bin/easyrpg-player
     plugs:
       - x11
       - wayland
@@ -23,31 +23,41 @@ apps:
       XDG_DATA_HOME: $SNAP_USER_COMMON/
       DBUS_FATAL_WARNINGS: 0
 
+layout:
+  /etc/wildmidi:
+    bind: $SNAP/etc/wildmidi
+  /usr/share/midi/freepats:
+    bind: $SNAP/usr/share/midi/freepats
+
 parts:
   liblcf:
     plugin: autotools
     source: https://github.com/EasyRPG/liblcf
     source-type: git
-    configflags:
+    autotools-configure-parameters:
       - --prefix=/usr
     build-packages:
       - libexpat1-dev
       - libicu-dev
       - icu-devtools
+    stage-packages:
+      - libicu66
 
   easyrpg-player:   
     plugin: autotools
-    after: [fmtlib,liblcf,desktop-glib-only]
+    after: [libwildmidi,liblcf,desktop-glib-only]
     source: https://github.com/EasyRPG/Player
     source-type: git
-    configflags:
+    autotools-configure-parameters:
       - --prefix=/usr
     override-build: |
       snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
       snapcraftctl build
 
     build-packages:
+      - libfmt-dev
       - libfreetype6-dev
+      - libmpg123-dev
       - libopusfile-dev
       - libpixman-1-dev
       - libpng-dev
@@ -55,15 +65,15 @@ parts:
       - libsdl2-mixer-dev
       - libsdl2-ttf-dev
       - libsndfile1-dev
-      - libspeex-dev
+      - libspeexdsp-dev
       - libvorbis-dev
-      - libwildmidi-dev
       - libxmp-dev
 
     stage-packages:
+      - freepats
       - libfreetype6
+      - libmpg123-dev
       - libstdc++6
-      - libicu60
       - libgl1-mesa-dri
       - libgl1-mesa-glx
       - libglu1-mesa
@@ -74,19 +84,23 @@ parts:
       - libsdl2-mixer-2.0-0
       - libsdl2-ttf-2.0-0
       - libsndfile1
-      - libspeex1
+      - libspeexdsp1
       - libvorbis0a
       - libwayland-egl1-mesa
-      - libwildmidi2
+      - libwildmidi-config
       - libxmp4
       - locales-all
-      - mpg123
 
-  fmtlib:
+  libwildmidi:
     plugin: cmake
-    source: https://github.com/fmtlib/fmt
+    source: https://github.com/Mindwerks/wildmidi
     source-type: git
-
+    cmake-parameters:
+      - -DCMAKE_BUILD_TYPE=Release
+      - -DBUILD_SHARED_LIBS=OFF
+      - -DWANT_PLAYER=ON
+      - -DWANT_STATIC=ON
+ 
   desktop-glib-only:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
     source-subdir: glib-only
