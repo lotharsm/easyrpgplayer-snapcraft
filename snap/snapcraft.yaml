@@ -36,6 +36,10 @@ parts:
     source-type: git
     autotools-configure-parameters:
       - --prefix=/usr
+    override-build: |
+      git fetch
+      git checkout 0.6.2
+      snapcraftctl build
     build-packages:
       - libexpat1-dev
       - libicu-dev
@@ -51,7 +55,18 @@ parts:
     autotools-configure-parameters:
       - --prefix=/usr
     override-build: |
-      snapcraftctl set-version "$(git -C $SNAPCRAFT_PART_SRC describe --tags)"
+      last_committed_tag="$(git tag --list | tac | head -n1)"
+      trimmed_tag="$(echo $last_committed_tag | sed 's/desc\///' | sed 's/git//' | sed 's/^v//')"
+      last_released_tag="$(snap info easyrpg-player | awk '$1 == "latest/beta:" { print $2 }')"
+      # If the latest tag from the upstream project has not been released to
+      # beta, build that tag instead of master.
+      if [ "${trimmed_tag}" != "${last_released_tag}" ]; then
+        git fetch
+        git checkout -f "${last_committed_tag}"
+        snapcraftctl set-version $(git -C ../src tag --list | tac | head -n1 | sed 's/desc\///' | sed 's/git//' | sed 's/^v//')
+      else
+        snapcraftctl set-version $(git describe | sed 's/desc\///')
+      fi
       snapcraftctl build
 
     build-packages:
