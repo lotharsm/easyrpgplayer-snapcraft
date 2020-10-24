@@ -57,6 +57,7 @@ parts:
     build-packages:
       - libfmt-dev
       - libfreetype6-dev
+      - libharfbuzz-dev
       - libmpg123-dev
       - libopusfile-dev
       - libpixman-1-dev
@@ -72,6 +73,7 @@ parts:
     stage-packages:
       - freepats
       - libfreetype6
+      - libharfbuzz0b
       - libmpg123-dev
       - libstdc++6
       - libgl1-mesa-dri
