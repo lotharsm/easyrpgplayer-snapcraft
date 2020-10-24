@@ -102,6 +102,8 @@ parts:
       - -DBUILD_SHARED_LIBS=OFF
       - -DWANT_PLAYER=ON
       - -DWANT_STATIC=ON
+    stage-packages:
+      - libasound2
  
   desktop-glib-only:
     source: https://github.com/ubuntu/snapcraft-desktop-helpers.git
