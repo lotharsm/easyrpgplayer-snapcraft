@@ -3,7 +3,11 @@ base: core20
 adopt-info: easyrpg-player
 summary: easyrpg-player
 description: |
-    easyRPG Player
+    EasyRPG Player is a program that allows to play games created with RPG Maker 2000 and 2003.
+    EasyRPG is developed by the amazing people running the [EasyRPG project](https://easyrpg.org/).
+
+    It aims to be a free (as in freedom) cross-platform RPG Maker 2000/2003 interpreter.
+    The main goal is to play all games created with them as the original game interpreter (RPG_RT) does.
 confinement: strict
 grade: stable
 
